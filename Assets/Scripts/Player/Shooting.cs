@@ -14,14 +14,18 @@ public class Shooting : MonoBehaviour
     public Rigidbody m_projectile;
     public float m_LaunchForce;
     public float m_destroyProjectileDelay;
+    [HideInInspector]
     public bool m_canFire;
-    public float m_attackSpeed;
+    private float attackSpeed;
+    public CharacterControllerScript controllerScript;
     public float rotationSpeed;
 
     private void Start()
     {
+        attackSpeed = controllerScript.attackSpeed;
         m_canFire = false;
-        InvokeRepeating("Fire", 0f, m_attackSpeed);
+        InvokeRepeating("Fire", 0f, 1f / attackSpeed);
+        InvokeRepeating("CheckAttackSpeedChange", 0, 0.2f); //check if the attack speed changed every .2 seconds to update the shooting frequency
 
         //ignore collisions between projectiles and projectiles, and player and projectiles
         Physics.IgnoreLayerCollision(10, 10);
@@ -29,6 +33,31 @@ public class Shooting : MonoBehaviour
 
 
 
+
+    }
+    private void CheckAttackSpeedChange()
+    {
+        //if attack speed is changed: change how frequent Fire is invoked
+        if (!IsEqual(attackSpeed, controllerScript.attackSpeed))
+        {
+            attackSpeed = controllerScript.attackSpeed;
+            CancelInvoke("Fire");
+            InvokeRepeating("Fire", 0f, 1f / attackSpeed);
+
+        }
+    }
+
+    //check equality between fl oas (up to epsilon)
+     private bool IsEqual(float a, float b)
+    {
+        if (a >= b - Mathf.Epsilon && a <= b + Mathf.Epsilon)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -104,7 +133,13 @@ public class Shooting : MonoBehaviour
         Rigidbody shellInstance = Instantiate(m_projectile, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
         // Set the shell's velocity to the launch force in the fire position's forward direction.
-        shellInstance.velocity = (m_lockedEnemy.GetComponent<Transform>().position - m_FireTransform.position).normalized * m_LaunchForce;
+        Vector3 enemyPosition = m_lockedEnemy.GetComponent<Transform>().position;
+
+        // the y component should be 0 as every projectile should be launched parallel to the floor (enemies should be hit if projectile goes above or below them
+        //... so trigger boxes should be made accordingly.
+
+        Vector3 velocityDirection = new Vector3(enemyPosition.x - m_FireTransform.position.x, 0, enemyPosition.z - m_FireTransform.position.z).normalized;
+        shellInstance.velocity = velocityDirection * m_LaunchForce;
 
         Destroy(shellInstance.gameObject, m_destroyProjectileDelay);
 

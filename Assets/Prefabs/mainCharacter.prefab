@@ -824,7 +824,7 @@ MonoBehaviour:
   m_LaunchForce: 30
   m_destroyProjectileDelay: 3
   m_canFire: 0
-  m_attackSpeed: 0.5
+  controllerScript: {fileID: 852267048}
   rotationSpeed: 0.05
 --- !u!54 &209286957
 Rigidbody:
@@ -854,6 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c172af8fc1c3b433eb7ff4723aac8298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackSpeed: 1
 --- !u!114 &419751860
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,10 +10,12 @@ public class EnemyHealth : MonoBehaviour
     private int m_CurrentHealth;
     private bool m_Dead;
     public Image m_HealthBar;
+    //TODO: This  should be set to enemy
+    private EnemySoundController soundController;
 
     private void OnEnable()
     {
-        // When the tank is enabled, reset the tank's health and whether or not it's dead.
+        soundController = GetComponent<EnemySoundController>();
         m_CurrentHealth = m_MaxHealth;
         m_Dead = false;
 
@@ -29,6 +31,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        soundController.Play();
         // Reduce current health by the amount of damage done.
         m_CurrentHealth -= amount;
 

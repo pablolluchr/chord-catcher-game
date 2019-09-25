@@ -15,6 +15,8 @@ public class CharacterControllerScript : MonoBehaviour
     private Shooting shootingScript;
     private CharacterMovement movementScript;
     private Joystick joystick;
+    public float attackSpeed = 1f;
+    public float animationLength = 10f;
 
 
     // Start is called before the first frame update
@@ -34,7 +36,6 @@ public class CharacterControllerScript : MonoBehaviour
         isFiring = false;
 
     }
-
 
     void FixedUpdate()
     {
@@ -72,6 +73,7 @@ public class CharacterControllerScript : MonoBehaviour
                 isRunning = true;
                 isIdle = false;
                 isFiring = false;
+                anim.speed = 1f;
             }
         }
         else //character not moving
@@ -82,15 +84,18 @@ public class CharacterControllerScript : MonoBehaviour
                 isRunning = false;
                 isIdle = true;
                 isFiring = false;
+                anim.speed = 1f;
             }
 
             //enemy just got in range
             else if (!isFiring && enemyInRange)
             {
                 anim.CrossFade("Attack", 0.1f);
-                //anim.speed = 0.1;
+                //attack animation only updates when player goes into attack mode (not while they are in it)
+                anim.speed = attackSpeed /animationLength;
                 isFiring = true;
                 isIdle = true;
+
 
             }
 
@@ -100,6 +105,7 @@ public class CharacterControllerScript : MonoBehaviour
                 anim.CrossFade("Idle", 0.1f);
                 isFiring = false;
                 isIdle = true;
+                anim.speed = 1f;
 
             }
         }
