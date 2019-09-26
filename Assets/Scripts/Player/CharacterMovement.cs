@@ -5,16 +5,19 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
 
-    protected Joystick joystick;
+    protected TouchDetector joystick;
+    //protected Joystick joystick;
     private Rigidbody character;
     public float moveSpeed = 10;
     public float rotationDamp= 10;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
-        joystick = FindObjectOfType<Joystick>();
+        //joystick = FindObjectOfType<Joystick>();
+        joystick = FindObjectOfType<TouchDetector>();
         character = GetComponent<Rigidbody>();
 
     }
@@ -25,8 +28,7 @@ public class CharacterMovement : MonoBehaviour
         character.velocity = new Vector3(joystick.Horizontal * moveSpeed,
                                            character.velocity.y,
                                         joystick.Vertical * moveSpeed);
-
-
+        if (character.velocity.magnitude < Mathf.Epsilon) return;
         float angle = FindDegree(joystick.Direction.x, joystick.Direction.y);
 
         //rotate player according to joystick

@@ -14,7 +14,8 @@ public class CharacterControllerScript : MonoBehaviour
     private Rigidbody rb;
     private Shooting shootingScript;
     private CharacterMovement movementScript;
-    private Joystick joystick;
+    //private Joystick joystick;
+    private TouchDetector joystick;
     public float attackSpeed = 1f;
     public float animationLength = 10f;
 
@@ -26,7 +27,7 @@ public class CharacterControllerScript : MonoBehaviour
         Screen.fullScreen = !Screen.fullScreen;
         Screen.SetResolution(1080, 1920, false);
         //set up private variables
-        joystick = FindObjectOfType<Joystick>();
+        joystick = FindObjectOfType<TouchDetector>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         shootingScript = GetComponent<Shooting>();

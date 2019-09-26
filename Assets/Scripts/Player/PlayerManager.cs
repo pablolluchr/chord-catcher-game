@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public bool buttonBeingPressed = false;
     #region Singleton
     public static PlayerManager instance;
     private void Awake()

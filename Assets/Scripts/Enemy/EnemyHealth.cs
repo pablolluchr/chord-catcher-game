@@ -12,10 +12,12 @@ public class EnemyHealth : MonoBehaviour
     public Image m_HealthBar;
     //TODO: This  should be set to enemy
     private EnemySoundController soundController;
+    private EnemyDeath death;
 
     private void OnEnable()
     {
         soundController = GetComponent<EnemySoundController>();
+        death = GetComponent<EnemyDeath>();
         m_CurrentHealth = m_MaxHealth;
         m_Dead = false;
 
@@ -31,25 +33,19 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        soundController.Play();
+        soundController.Play(0);
         // Reduce current health by the amount of damage done.
         m_CurrentHealth -= amount;
 
         // Change the UI elements appropriately.
-        SetHealthUI();  
+        SetHealthUI();
 
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
         if (m_CurrentHealth <= 0f && !m_Dead)
         {
-            OnDeath();
+            death.Die();
         }
     }
 
-    public void OnDeath()
-    {
-        //die
-        Destroy(gameObject);
-
-    }
 
 }

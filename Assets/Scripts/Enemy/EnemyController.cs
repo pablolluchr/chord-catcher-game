@@ -5,13 +5,15 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public int damage;
+    public bool isDead; //TODO: Instead of disabling scripts use this var to do stuff
     private bool recentlyHurt; //has recently attacked the character
     public float timeBetweenDamage;
     public bool isTouchingChar;
-    public GameObject character;
+    private GameObject character;
     // Start is called before the first frame update
     void Start()
     {
+        character = PlayerManager.instance.player;
         recentlyHurt = false;
         isTouchingChar = false;
     }
@@ -22,7 +24,7 @@ public class EnemyController : MonoBehaviour
         if (!recentlyHurt && isTouchingChar)
         {
             recentlyHurt = true;
-
+            GetComponent<EnemySoundController>().Play(1);
             CharacterHealth health = character.GetComponent<CharacterHealth>();
             health.TakeDamage(damage);
             Invoke("SetRecentlyHurtFalse", timeBetweenDamage);
