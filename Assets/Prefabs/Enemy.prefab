@@ -518,7 +518,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680995130}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.2979252}
+  m_LocalPosition: {x: 0, y: 0, z: -0.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1655550984}
@@ -528,7 +528,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 278.71616, y: 532.32996}
+  m_AnchoredPosition: {x: 279, y: 533.4}
   m_SizeDelta: {x: 599, y: 1068.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1680995133
@@ -1053,6 +1053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyController: {fileID: 5254733544905171841}
+  lastEnemyCollision: {fileID: 0}
 --- !u!136 &5254733544481609485
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1165,6 +1166,8 @@ MonoBehaviour:
   isDead: 0
   timeBetweenDamage: 1
   isTouchingChar: 0
+  isAllyTouchingEnemy: 0
+  isAlly: 0
 --- !u!114 &5254733544905171840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1179,6 +1182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MaxHealth: 50
   m_HealthBar: {fileID: 5254733542834891420}
+  isDead: 0
 --- !u!114 &5254733544905171966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,6 +1202,7 @@ MonoBehaviour:
   rotationDamp: 0.1
   targetAngle: {x: 0, y: 0, z: 0}
   lookRadius: 8
+  target: {fileID: 0}
 --- !u!114 &629372135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1327,7 +1332,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 3.9829102
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0

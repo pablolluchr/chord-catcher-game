@@ -29,8 +29,8 @@ public class EnemyMovement : MonoBehaviour
         if (controller.isAlly)
         {
             //attack the enemy the player is attacking
-            target = PlayerManager.instance.player.GetComponent<Shooting>().m_lockedEnemy.GetComponent<Transform>();
-            if (PlayerManager.instance.player.GetComponent<Shooting>().m_lockedEnemy.GetComponentInParent<EnemyHealth>().isDead)
+            target = PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy.GetComponent<Transform>();
+            if (PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy.GetComponentInParent<EnemyHealth>().isDead)
             {
                 target = null;
             }

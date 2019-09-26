@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-
+    //MOVES player according to joystick
     protected TouchDetector joystick;
-    //protected Joystick joystick;
     private Rigidbody character;
     public float moveSpeed = 10;
     public float rotationDamp= 10;
@@ -16,7 +15,6 @@ public class CharacterMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //joystick = FindObjectOfType<Joystick>();
         joystick = FindObjectOfType<TouchDetector>();
         character = GetComponent<Rigidbody>();
 
