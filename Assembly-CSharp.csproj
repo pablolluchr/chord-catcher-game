@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\ButtonHandlerManager.cs" />
     <Compile Include="Assets\CameraRotation.cs" />
+    <Compile Include="Assets\HarvestedNotesUI.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />

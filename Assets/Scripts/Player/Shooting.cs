@@ -9,7 +9,7 @@ public class Shooting : MonoBehaviour
     public Transform m_FireTransform;           // A child of the tank where the shells are spawned.
     public int m_detectionRadius;
     public LayerMask m_enemiesMask;
-    private Collider m_lockedEnemy;
+    public Collider m_lockedEnemy;
     private float m_minDistance;
     public Rigidbody m_projectile;
     public float m_LaunchForce;

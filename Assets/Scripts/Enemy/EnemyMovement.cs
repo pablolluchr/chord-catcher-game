@@ -11,15 +11,30 @@ public class EnemyMovement : MonoBehaviour
     public float rotationDamp = 0.1f;
     public Vector3 targetAngle;
     public float lookRadius = 10f;
+    private EnemyController controller;
 
-
-    private Transform target;
+    public Transform target;
 
     // Start is called before the first frame update
     void Start()
     {
+        controller = GetComponent<EnemyController>();
+        //IF ENEMIES ARE ALLIES TAKE TARGET FROM PLAYER
         target = PlayerManager.instance.player.transform;
 
+    }
+
+    private void Update()
+    {
+        if (controller.isAlly)
+        {
+            //attack the enemy the player is attacking
+            target = PlayerManager.instance.player.GetComponent<Shooting>().m_lockedEnemy.GetComponent<Transform>();
+            if (PlayerManager.instance.player.GetComponent<Shooting>().m_lockedEnemy.GetComponentInParent<EnemyHealth>().isDead)
+            {
+                target = null;
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -30,6 +45,8 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (target == null) return; //TODO: FOLLOW PLAYER INSTEAD
+
         float distance = Vector3.Distance(target.position, transform.position);
         if (distance <= lookRadius && canMove)
         {
