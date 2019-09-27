@@ -11,14 +11,14 @@ public class EnemyMovement : MonoBehaviour
     public float rotationDamp = 0.1f;
     public Vector3 targetAngle;
     public float lookRadius = 10f;
-    private EnemyController controller;
+    private Enemy oneself;
 
     public Transform target;
 
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<EnemyController>();
+        oneself = GetComponent<Enemy>();
         //IF ENEMIES ARE ALLIES TAKE TARGET FROM PLAYER
         target = PlayerManager.instance.player.transform;
 
@@ -26,14 +26,16 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        if (controller.isAlly)
+        if (oneself.isAlly) //attack the enemy the playing is attacking
         {
-            //attack the enemy the player is attacking
-            target = PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy.GetComponent<Transform>();
-            if (PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy.GetComponentInParent<EnemyHealth>().isDead)
+            if (PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy == null) target = null; //if there's no enemy in player's reach then set target to null
+            else //otherwise if the enemy is not alive then set it to its transform
             {
-                target = null;
+                target = PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy.transform;
+                if (target.GetComponent<Enemy>().lifeState != 0) target = null;//if target is not alive set to null
             }
+            
+
         }
     }
 

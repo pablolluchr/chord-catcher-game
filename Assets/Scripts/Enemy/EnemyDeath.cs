@@ -16,11 +16,10 @@ public class EnemyDeath : MonoBehaviour
     public void Die()
     {
         //show collect/recruit options
-        Debug.Log("Dead");
         deathCanvas.gameObject.SetActive(true);
 
         GetComponent<EnemyMovement>().enabled = false;
-        GetComponent<EnemyController>().enabled = false;
+        GetComponent<Enemy>().enabled = false;
 
         //TODO: Do something better than just deactivating the capsule collider lol
         GetComponent<CapsuleCollider>().enabled = false;
@@ -34,6 +33,7 @@ public class EnemyDeath : MonoBehaviour
     public void Harvest()
     {
         GameManager.instance.HarvestNotes(1);
+        GetComponent<Enemy>().lifeState = 1;
         deathCanvas.gameObject.SetActive(false);
         Destroy(gameObject);
     }
@@ -42,28 +42,13 @@ public class EnemyDeath : MonoBehaviour
     {
         deathCanvas.gameObject.SetActive(false);
 
-        GetComponent<EnemyController>().isAlly = true;
         GetComponent<CapsuleCollider>().enabled = true;
-        GetComponent<EnemyMovement>().enabled = true;
-        GetComponent<EnemyController>().enabled = true;
+        GetComponent<EnemyMovement>().enabled = true; 
+        GetComponent<Enemy>().enabled = true;//runs OnEnable() so it resets health and lifeState
+        GetComponent<Enemy>().isAlly = true;
+
         gameObject.layer = LayerMask.NameToLayer("Allies");
 
-
-
-
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    //public void ButtonPressed()
-    //{
-    //    GameManager.instance.PressButton();
-    //}
-    //public void ButtonReleased()
-    //{
-    //    GameManager.instance.ReleaseButton();
-    //}
 }

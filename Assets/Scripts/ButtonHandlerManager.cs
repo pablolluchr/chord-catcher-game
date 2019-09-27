@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ButtonHandlerManager : MonoBehaviour
 {
+    
     // Start is called before the first frame update
     public void ButtonDown()
     {
@@ -13,15 +14,5 @@ public class ButtonHandlerManager : MonoBehaviour
     {
         GameManager.instance.ReleaseButton();
 
-    }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -8,7 +8,7 @@ public class TouchDetector : MonoBehaviour
     // Start is called before the first frame update
     private Vector2 baseClick;
     private Vector2 offset;
-    private float offsetLimit = 100f; //TODO: make this relative to the screen resolution??
+    //private float offsetLimit = 100f; //TODO: make this relative to the screen resolution??
     public RectTransform joystick;
     public RectTransform handle;
     public float Horizontal;

@@ -751,12 +751,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8239081335613147008}
   - component: {fileID: 2079848374870305530}
-  - component: {fileID: 3481329011127080510}
   - component: {fileID: 209286957}
-  - component: {fileID: 852267048}
-  - component: {fileID: 419751860}
   - component: {fileID: 419751857}
   - component: {fileID: 1988449939690359161}
+  - component: {fileID: 419751856}
+  - component: {fileID: 419751858}
   m_Layer: 8
   m_Name: mainCharacter
   m_TagString: Untagged
@@ -802,30 +801,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3481329011127080510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4903365607976809875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7e8956e560ae4c1e8cf02b99fd62e55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FireTransform: {fileID: 1091095731959804469}
-  m_detectionRadius: 6
-  m_enemiesMask:
-    serializedVersion: 2
-    m_Bits: 512
-  m_projectile: {fileID: 349318242858436804, guid: 6b83a772591b04e0b8395483c8975868,
-    type: 3}
-  m_LaunchForce: 30
-  m_destroyProjectileDelay: 3
-  m_canFire: 0
-  controllerScript: {fileID: 852267048}
-  rotationSpeed: 0.05
 --- !u!54 &209286957
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -842,34 +817,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 116
   m_CollisionDetection: 1
---- !u!114 &852267048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4903365607976809875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c172af8fc1c3b433eb7ff4723aac8298, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackSpeed: 1
---- !u!114 &419751860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4903365607976809875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 147ab7e0e573145abaf8ad75b50c6859, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxHealth: 100
-  m_CurrentHealth: 0
-  m_HealthBar: {fileID: 1903744713}
 --- !u!136 &419751857
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -898,6 +845,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   rotationDamp: 10
+--- !u!114 &419751856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4903365607976809875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c172af8fc1c3b433eb7ff4723aac8298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationState: 0
+  animationLength: 5
+  maxHealth: 100
+  currentHealth: 0
+  lifeState: 0
+  healthBar: {fileID: 1903744713}
+  attackSpeed: 3
+--- !u!114 &419751858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4903365607976809875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c53bbd8b0bc3415a9fefbd3eb9eca1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireTransform: {fileID: 1091095731959804469}
+  detectionDistance: 0
+  lockedEnemy: {fileID: 0}
+  projectile: {fileID: 349318242858436804, guid: 6b83a772591b04e0b8395483c8975868,
+    type: 3}
+  launchForce: 30
+  destroyProjectileDelay: 5
+  canFire: 0
+  attackSpeed: 0
+  enemiesMask:
+    serializedVersion: 2
+    m_Bits: 512
+  rotationSpeed: 10
 --- !u!1 &5362491253654061036
 GameObject:
   m_ObjectHideFlags: 0

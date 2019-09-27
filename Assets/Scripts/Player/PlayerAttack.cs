@@ -1,23 +1,29 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerAttack : RangedAttack
+public class PlayerAttack : MonoBehaviour
 {
     public LayerMask enemiesMask;
-    public Player player;
     public float rotationSpeed;
-
+    public Transform fireTransform;
+    public float detectionDistance;
+    public Collider lockedEnemy;
+    public Rigidbody projectile;
+    public float launchForce;
+    public float destroyProjectileDelay;
+    [HideInInspector]
+    public bool canFire;
+    protected float attackSpeed;
+    public int damage;
     private void Start()
     {
         canFire = false;
         lockedEnemy = null;
-        player = GetComponent<Player>();
-        attackSpeed = player.attackSpeed;
+        attackSpeed = GetComponent<Player>().attackSpeed;
         InvokeRepeating("FindEnemyAndFire", 0f, 1f / attackSpeed);
         //InvokeRepeating("CheckAttackSpeedChange", 0, 0.2f); //check if the attack speed changed every .2 seconds to update the shooting frequency
 
         //ignore collisions between projectiles and projectiles, and player and projectiles
-        attackSpeed = player.attackSpeed;
         Physics.IgnoreLayerCollision(10, 10);
         Physics.IgnoreLayerCollision(8, 10);
     }
@@ -56,7 +62,7 @@ public class PlayerAttack : RangedAttack
         Collider[] colliders = Physics.OverlapSphere(transform.position, detectionDistance, enemiesMask);
         //stop fire if there are no enemies
         // Go through all the colliders to find the nearest one. 
-        detectionDistance = float.MaxValue;
+        float closestDistance = float.MaxValue;
         for (int i = 0; i < colliders.Length; i++)
         {
             // ... and find their rigidbody.
@@ -68,14 +74,13 @@ public class PlayerAttack : RangedAttack
 
             //calculate distance
             float dist = Vector3.Distance(targetTransform.position, transform.position);
-            if (dist < detectionDistance)
+            if (dist < closestDistance)
             {
-                detectionDistance = dist;
+                closestDistance = dist;
                 lockedEnemy = targetTransform.GetComponent<Collider>();
             }
 
         }
-
 
         if (colliders.Length < 1)
         {
@@ -89,7 +94,49 @@ public class PlayerAttack : RangedAttack
         }
 
     }
-
     
+
+
+    public void Fire()
+    {
+        if (lockedEnemy == null) return;
+     
+        // Create an instance of the projectile and store a reference to it's rigidbody.
+        Rigidbody shellInstance = Instantiate(projectile, fireTransform.position, fireTransform.rotation) as Rigidbody;
+        shellInstance.GetComponent<Projectile>().damage = damage;
+        // Set the shell's velocity to the launch force in the fire position's forward direction.
+        Vector3 enemyPosition = lockedEnemy.GetComponent<Transform>().position;
+
+        // the y component should be 0 as every projectile should be launched parallel to the floor (enemies should be hit if projectile goes above or below them
+        //... so trigger boxes should be made accordingly.
+
+        Vector3 velocityDirection = new Vector3(enemyPosition.x - fireTransform.position.x, 0, enemyPosition.z - fireTransform.position.z).normalized;
+        shellInstance.velocity = velocityDirection * launchForce;
+
+        Destroy(shellInstance.gameObject, destroyProjectileDelay);
+
+
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionDistance);
+    }
+
+    //check equality between floats (up to epsilon)
+    protected bool IsEqual(float a, float b)
+    {
+        if (a >= b - Mathf.Epsilon && a <= b + Mathf.Epsilon)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 
 }

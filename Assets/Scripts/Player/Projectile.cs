@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public int m_Damage;
+    public int damage;
     public float knockoutTime = 0.2f;
-   
+    //TODO: constructor that when called new Projectile(position,damage,target) spawn
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -15,10 +15,10 @@ public class Projectile : MonoBehaviour
         {
 
             Debug.Log("Enemy hit");
-            EnemyHealth health = collision.gameObject.GetComponent<EnemyHealth>();
+            Unit enemy = collision.gameObject.GetComponent<Enemy>();
             EnemyMovement move = collision.gameObject.GetComponent<EnemyMovement>();
             move.StopMoving(knockoutTime);
-            health.TakeDamage(m_Damage);
+            enemy.TakeDamage(damage);
             Destroy(gameObject);
 
         }

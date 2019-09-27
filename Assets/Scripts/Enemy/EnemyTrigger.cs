@@ -2,27 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//sets up states in Enemy according to what the enemy is interacting with
 public class EnemyTrigger : MonoBehaviour
 {
 
-    public EnemyController enemyController;
-    public EnemyHealth lastEnemyCollision;
+    public Enemy oneself;
+    public Enemy lastCollisionedWith;
     private void OnTriggerEnter(Collider other)
     {
         //check if it's an ally and it's attacking another enemy
-        if (enemyController.isAlly)
+        if (oneself.isAlly)
         {
-            enemyController.isAllyTouchingEnemy |= other.gameObject.layer == LayerMask.NameToLayer("Enemies");
-            if (other.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+            //oneself.isAllyTouchingEnemy |= other.gameObject.layer == LayerMask.NameToLayer("Enemies");
+            if(other.gameObject.layer == LayerMask.NameToLayer("Enemies"))
             {
-                lastEnemyCollision = other.GetComponentInParent<EnemyHealth>();
+                oneself.isAllyTouchingEnemy = true;
+                oneself.enemyOnCollision = other.GetComponent<Enemy>();
             }
 
         }
         else
         {
-            //character touches enemy
-            enemyController.isTouchingChar |= other.gameObject.layer == LayerMask.NameToLayer("Main character");
+            if (other.gameObject.layer == LayerMask.NameToLayer("Main character")) oneself.isTouchingChar = true;
 
         }
 
@@ -31,8 +33,19 @@ public class EnemyTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        //character stops touching enemy
-        enemyController.isTouchingChar &= other.gameObject.layer != LayerMask.NameToLayer("Main character");
+        //enemy stops touching character
+        Debug.Log("stop touching char");
+        if (other.gameObject.layer == LayerMask.NameToLayer("Main character")) oneself.isTouchingChar = false;
+
+        Debug.Log(other.gameObject.layer == LayerMask.NameToLayer("Main character"));
+
+        if (oneself.isAlly && other.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+        {
+            Debug.Log("Stopped touching enemy");
+            oneself.isAllyTouchingEnemy = false;
+            
+        }
+        
     }
 
 

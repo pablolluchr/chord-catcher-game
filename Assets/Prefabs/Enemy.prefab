@@ -282,7 +282,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1629698757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1872b757345743da8b78f0b06301e7c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d4881294559a46e395effa0973dc804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1655550983
@@ -488,7 +488,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1655550983}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1872b757345743da8b78f0b06301e7c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d4881294559a46e395effa0973dc804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1680995130
@@ -1052,8 +1052,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81436ad3abd114666a557dca3c5516af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyController: {fileID: 5254733544905171841}
-  lastEnemyCollision: {fileID: 0}
+  oneself: {fileID: 7204499614956076878}
+  lastCollisionedWith: {fileID: 0}
 --- !u!136 &5254733544481609485
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1080,13 +1080,12 @@ GameObject:
   - component: {fileID: 5254733544905171842}
   - component: {fileID: 5254733544905171965}
   - component: {fileID: 5254733544905171967}
-  - component: {fileID: 5254733544905171841}
-  - component: {fileID: 5254733544905171840}
   - component: {fileID: 5254733544905171966}
   - component: {fileID: 629372135}
   - component: {fileID: 629372136}
   - component: {fileID: 629372137}
   - component: {fileID: 6827927740737611731}
+  - component: {fileID: 7204499614956076878}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
@@ -1150,39 +1149,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &5254733544905171841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5254733544905171961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe42ad6a4f14e4aedae5adeeab559bb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  isDead: 0
-  timeBetweenDamage: 1
-  isTouchingChar: 0
-  isAllyTouchingEnemy: 0
-  isAlly: 0
---- !u!114 &5254733544905171840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5254733544905171961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 366d82741a4d04b80ac6adf1faa22735, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxHealth: 50
-  m_HealthBar: {fileID: 5254733542834891420}
-  isDead: 0
 --- !u!114 &5254733544905171966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1421,3 +1387,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathCanvas: {fileID: 1680995133}
+--- !u!114 &7204499614956076878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5254733544905171961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe42ad6a4f14e4aedae5adeeab559bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationState: 0
+  animationLength: 0
+  maxHealth: 10
+  currentHealth: 0
+  lifeState: 0
+  healthBar: {fileID: 5254733542834891420}
+  damage: 10
+  timeBetweenDamage: 1
+  isTouchingChar: 0
+  isAllyTouchingEnemy: 0
+  isAlly: 0
+  enemyOnCollision: {fileID: 0}
