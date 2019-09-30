@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
     public float rotationSpeed;
     public Transform fireTransform;
     public float detectionDistance;
-    public Collider lockedEnemy;
+    public GameObject lockedEnemy;
     public Rigidbody projectile;
     public float launchForce;
     public float destroyProjectileDelay;
@@ -15,6 +15,7 @@ public class PlayerAttack : MonoBehaviour
     public bool canFire;
     protected float attackSpeed;
     public int damage;
+
     private void Start()
     {
         canFire = false;
@@ -28,11 +29,6 @@ public class PlayerAttack : MonoBehaviour
         Physics.IgnoreLayerCollision(8, 10);
     }
 
-    //optional feature
-    //private void Update()
-    //{
-    //    if (GetComponent<Player>().animationState == 1) lockedEnemy = null; //player can only have a locked enemy when it's either idle or attacking
-    //}
 
 
     public void UpdateAttackSpeed(int newAttackSpeed)
@@ -83,7 +79,7 @@ public class PlayerAttack : MonoBehaviour
             if (dist < closestDistance)
             {
                 closestDistance = dist;
-                lockedEnemy = targetTransform.GetComponent<Collider>();
+                lockedEnemy = colliders[i].gameObject;
             }
 
         }

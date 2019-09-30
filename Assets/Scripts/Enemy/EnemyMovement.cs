@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,16 +12,15 @@ public class EnemyMovement : MonoBehaviour
     public float rotationDamp = 0.1f;
     public Vector3 targetAngle;
     public float lookRadius = 10f;
-    private Enemy oneself;
+    private Enemy self;
 
-    public Transform target;
+    //public GameObject target;
 
     // Start is called before the first frame update
     void Start()
     {
-        oneself = GetComponent<Enemy>();
+        self = GetComponent<Enemy>();
         //IF ENEMIES ARE ALLIES TAKE TARGET FROM PLAYER
-        target = PlayerManager.instance.player.transform;
 
     }
 
@@ -33,30 +33,21 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (oneself.isAlly) //attack the enemy the playing is attacking
+        if (self.isAlly && self.isTouchingPlayerIndirectly)//stop when touching player indirectly
         {
-            if (PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy == null) //if player doesn't have a locked enemy 
-            {//walk towards player
-
-                target = PlayerManager.instance.player.transform;
-                if (oneself.isTouchingPlayerIndirectly) target = null; //stop when touching player
-                
-            }
-            else
-            {
-                target = PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy.transform;
-                if (target.GetComponent<Enemy>().lifeState != 0) target = null;//if target is not alive set to null
-
-            }
+            self.target = null;
+            return;
         }
 
-        if (target == null) return; //if despite the previous code the target is still null then don't move
+        try { if (self.target.GetComponent<Enemy>().lifeState != 0) self.target = self.player; }//if target dies go after player
+        catch (NullReferenceException e) { }
 
-        float distance = Vector3.Distance(target.position, transform.position);
+        
+        float distance = Vector3.Distance(self.target.transform.position, transform.position);
         if (distance <= lookRadius && canMove)
         {
             //start chasing character
-            var lookPos = target.position - transform.position;
+            var lookPos = self.target.transform.position - transform.position;
             lookPos.y = 0;
             var rotation = Quaternion.LookRotation(lookPos);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.time * rotationSpeed);

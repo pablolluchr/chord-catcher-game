@@ -9,11 +9,11 @@ using UnityEngine;
 //and attack related things by a function that detects the enemies in range (in the same way that the player does it).
 //This code shoould be put into Unit (for example the function that detects the units in range --regardless of the class) . Then this information will be handled within enemy.
 //Melee and ranged units should have the same code just with a different value for range. Fuck trigger. Literally the same idea as the player's code. So all of this should lay within unit
-public class EnemyTrigger : MonoBehaviour
+public class EnemyCollisionHandler : MonoBehaviour
 {
 
     public Enemy self;
-    public List<Collider> collidingAllies;
+    public List<GameObject> collidingAllies;
 
     private void Start()
     {
@@ -24,17 +24,17 @@ public class EnemyTrigger : MonoBehaviour
     {
         //isTouchingPlayerIndirectly defaults to false. Will be updated in LateUpdate otherwise
         self.isTouchingPlayerIndirectly = false;
-       
+
         //if ally kills enemy then set the enemyoncollision to null and isTouchingEnemy to false
         if (self.enemyOnCollision != null)
         {
-            if (self.enemyOnCollision.lifeState == 2) 
+            if (self.enemyOnCollision.lifeState == 2)
             {
                 self.enemyOnCollision = null;
                 self.isTouchingEnemy = false;
             }
         }
-        
+
     }
 
     private void LateUpdate()
@@ -46,11 +46,11 @@ public class EnemyTrigger : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemies"))
         {
-            self.enemyOnCollision = other.GetComponent<Enemy>();
+            self.enemyOnCollision = other.gameObject.GetComponent<Enemy>();
             self.isTouchingEnemy = true;
         }
 
@@ -61,9 +61,9 @@ public class EnemyTrigger : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Allies"))
         {
             self.isTouchingAlly = true;
-            collidingAllies.Add(other);
+            collidingAllies.Add(other.gameObject);
         }
-        
+
     }
 
     public void UpdateTouchingPlayerIndirectly()
@@ -72,14 +72,14 @@ public class EnemyTrigger : MonoBehaviour
         if (self.isTouchingPlayerIndirectly) return;//if they already know it the chain stops (to avoid infinite loops in the spread of the word)
 
         self.isTouchingPlayerIndirectly = true;
-        foreach(Collider c in collidingAllies)
-        { 
-            c.GetComponentInChildren<EnemyTrigger>().UpdateTouchingPlayerIndirectly();
+        foreach (GameObject c in collidingAllies)
+        {
+            c.GetComponentInChildren<EnemyCollisionHandler>().UpdateTouchingPlayerIndirectly();
         }
-        
+
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemies")) self.isTouchingEnemy = false;
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -90,7 +90,7 @@ public class EnemyTrigger : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Allies"))
         {
             self.isTouchingAlly = false;
-            collidingAllies.Remove(other);
+            collidingAllies.Remove(other.gameObject);
 
         }
 

@@ -8,38 +8,42 @@ public class EnemyAttack : MonoBehaviour
     public int damage;
     public bool recentlyInflictedDamage; //has recently attacked the character
     public float timeBetweenDamage;
+    public float attackRange;
     // Start is called before the first frame update
 
     void Start()
     {
         self = GetComponent<Enemy>();
     }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
 
+    //public abstract void Attack();
     void Update()
     {
         if (recentlyInflictedDamage) return;
-        
+        if (self.target == null) return;
+        if (self.isAlly && self.target.layer == LayerMask.NameToLayer("Player")) return; //allies shouldn't damage player
 
-        if (self.isAlly)
+        float dist = Vector3.Distance(transform.position, self.target.transform.position); //distance between self and target
+
+        if (dist < attackRange)
         {
-            if (self.isTouchingEnemy)
+            if (self.target.GetComponent<Player>() != null)
             {
-                Debug.Log("Ally attacking enemy");
-                self.enemyOnCollision.TakeDamage(damage);
-                recentlyInflictedDamage = true;
-                Invoke("SetRecentlyInflictedDamageFalse", timeBetweenDamage);
-            }
-        }
-        else
-        {
-            if (self.isTouchingPlayer)
-            {
-                Debug.Log("Enemy attacking player");
+                self.target.GetComponent<Player>().TakeDamage(damage);
                 GetComponent<EnemySoundController>().Play(1);
-                self.player.GetComponent<Player>().TakeDamage(damage);
-                recentlyInflictedDamage = true;
-                Invoke("SetRecentlyInflictedDamageFalse", timeBetweenDamage);
+
             }
+            else
+            {
+                self.target.GetComponent<Enemy>().TakeDamage(damage);
+            }
+            recentlyInflictedDamage = true;
+            Invoke("SetRecentlyInflictedDamageFalse", timeBetweenDamage);
         }
     }
 
