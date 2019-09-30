@@ -11,7 +11,11 @@ public class Unit : MonoBehaviour
     public int currentHealth;
     public int lifeState; //0:alive, 1:dead, 2: limbo
     public Image healthBar;
-
+    public EnemySoundController sound;
+    private void Start()
+    {
+        sound = GetComponent<EnemySoundController>();
+    }
     private void OnEnable()
     {
         currentHealth = maxHealth;
@@ -30,6 +34,8 @@ public class Unit : MonoBehaviour
     public void TakeDamage(int amount)
     {
         // Reduce current health by the amount of damage done.
+        if(GetComponent<EnemySoundController>()!=null) GetComponent<EnemySoundController>().Play(0);
+
         currentHealth -= amount;
         currentHealth = Mathf.Max(0, currentHealth);
         // Change the UI elements appropriately.

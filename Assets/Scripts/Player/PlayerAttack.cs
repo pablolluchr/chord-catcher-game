@@ -28,6 +28,12 @@ public class PlayerAttack : MonoBehaviour
         Physics.IgnoreLayerCollision(8, 10);
     }
 
+    //optional feature
+    //private void Update()
+    //{
+    //    if (GetComponent<Player>().animationState == 1) lockedEnemy = null; //player can only have a locked enemy when it's either idle or attacking
+    //}
+
 
     public void UpdateAttackSpeed(int newAttackSpeed)
     {

@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
 
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Main character") ||
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Player") ||
                 collision.gameObject.layer == LayerMask.NameToLayer("Character projectile")) { }
 
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Walls"))

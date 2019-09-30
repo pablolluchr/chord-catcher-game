@@ -20,10 +20,12 @@ public class EnemyDeath : MonoBehaviour
 
         GetComponent<EnemyMovement>().enabled = false;
         GetComponent<Enemy>().enabled = false;
+        GetComponent<EnemyAttack>().enabled = false;
+
 
         //TODO: Do something better than just deactivating the capsule collider lol
         GetComponent<CapsuleCollider>().enabled = false;
-        gameObject.layer = LayerMask.NameToLayer("DeadEnemies");
+        gameObject.layer = LayerMask.NameToLayer("Limbo");
 
         //play death animation --or just overlay something to indicate it died
 
@@ -41,11 +43,13 @@ public class EnemyDeath : MonoBehaviour
     public void Recruit()
     {
         deathCanvas.gameObject.SetActive(false);
+        GetComponent<EnemyAttack>().enabled = true;
 
         GetComponent<CapsuleCollider>().enabled = true;
         GetComponent<EnemyMovement>().enabled = true; 
         GetComponent<Enemy>().enabled = true;//runs OnEnable() so it resets health and lifeState
         GetComponent<Enemy>().isAlly = true;
+        GetComponent<EnemyMovement>().lookRadius = 100;
 
         gameObject.layer = LayerMask.NameToLayer("Allies");
 

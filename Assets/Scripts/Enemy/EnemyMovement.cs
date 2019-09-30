@@ -24,20 +24,6 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-        if (oneself.isAlly) //attack the enemy the playing is attacking
-        {
-            if (PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy == null) target = null; //if there's no enemy in player's reach then set target to null
-            else //otherwise if the enemy is not alive then set it to its transform
-            {
-                target = PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy.transform;
-                if (target.GetComponent<Enemy>().lifeState != 0) target = null;//if target is not alive set to null
-            }
-            
-
-        }
-    }
 
     private void OnDrawGizmosSelected()
     {
@@ -47,7 +33,24 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (target == null) return; //TODO: FOLLOW PLAYER INSTEAD
+        if (oneself.isAlly) //attack the enemy the playing is attacking
+        {
+            if (PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy == null) //if player doesn't have a locked enemy 
+            {//walk towards player
+
+                target = PlayerManager.instance.player.transform;
+                if (oneself.isTouchingPlayerIndirectly) target = null; //stop when touching player
+                
+            }
+            else
+            {
+                target = PlayerManager.instance.player.GetComponent<PlayerAttack>().lockedEnemy.transform;
+                if (target.GetComponent<Enemy>().lifeState != 0) target = null;//if target is not alive set to null
+
+            }
+        }
+
+        if (target == null) return; //if despite the previous code the target is still null then don't move
 
         float distance = Vector3.Distance(target.position, transform.position);
         if (distance <= lookRadius && canMove)

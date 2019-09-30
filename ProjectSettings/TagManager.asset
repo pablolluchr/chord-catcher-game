@@ -13,13 +13,13 @@ TagManager:
   - UI
   - 
   - 
-  - Main character
+  - Player
   - Enemies
   - Character projectile
   - Trigger
   - Walls
   - Map
-  - DeadEnemies
+  - Limbo
   - Allies
   - 
   - 
