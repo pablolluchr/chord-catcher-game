@@ -24,24 +24,17 @@ public class EnemyAttack : MonoBehaviour
     //public abstract void Attack();
     void Update()
     {
+        GameObject target = GetComponent<ITarget>().GetTarget();
         if (recentlyInflictedDamage) return;
-        if (self.target == null) return;
-        if (self.isAlly && self.target.layer == LayerMask.NameToLayer("Player")) return; //allies shouldn't damage player
+        if (target == null) return;
+        if (self.isAlly && target.layer == LayerMask.NameToLayer("Player")) return; //allies shouldn't damage player
 
-        float dist = Vector3.Distance(transform.position, self.target.transform.position); //distance between self and target
+        float dist = Vector3.Distance(transform.position, target.transform.position); //distance between self and target
 
         if (dist < attackRange)
         {
-            if (self.target.GetComponent<Player>() != null)
-            {
-                self.target.GetComponent<Player>().TakeDamage(damage);
-                GetComponent<EnemySoundController>().Play(1);
-
-            }
-            else
-            {
-                self.target.GetComponent<Enemy>().TakeDamage(damage);
-            }
+            target.GetComponent<ITakeDamage>().TakeDamage(damage);
+            //TODO: make player play sound when hit 
             recentlyInflictedDamage = true;
             Invoke("SetRecentlyInflictedDamageFalse", timeBetweenDamage);
         }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-public class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour, ITakeDamage, ITarget
 {
     public int animationState;//0: idle, 1: running, 2: attacking
     protected Animator anim;
@@ -11,11 +11,8 @@ public class Unit : MonoBehaviour
     public int currentHealth;
     public int lifeState; //0:alive, 1:dead, 2: limbo
     public Image healthBar;
-    public EnemySoundController sound;
-    private void Start()
-    {
-        sound = GetComponent<EnemySoundController>();
-    }
+    public GameObject target;
+    
     private void OnEnable()
     {
         currentHealth = maxHealth;
@@ -24,6 +21,9 @@ public class Unit : MonoBehaviour
         // Update the health slider's value and color.
         SetHealthUI();
     }
+
+    public GameObject GetTarget() { return target; }
+    public void SetTarget(GameObject newTarget) { target = newTarget; }
 
     void SetHealthUI()
     {
@@ -34,7 +34,8 @@ public class Unit : MonoBehaviour
     public void TakeDamage(int amount)
     {
         // Reduce current health by the amount of damage done.
-        if(GetComponent<EnemySoundController>()!=null) GetComponent<EnemySoundController>().Play(0);
+
+        if(GetComponent<IPlaySound>()!=null) GetComponent<IPlaySound>().PlaySound(0);
 
         currentHealth -= amount;
         currentHealth = Mathf.Max(0, currentHealth);

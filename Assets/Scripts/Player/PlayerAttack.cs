@@ -7,7 +7,6 @@ public class PlayerAttack : MonoBehaviour
     public float rotationSpeed;
     public Transform fireTransform;
     public float detectionDistance;
-    public GameObject lockedEnemy;
     public Rigidbody projectile;
     public float launchForce;
     public float destroyProjectileDelay;
@@ -19,7 +18,7 @@ public class PlayerAttack : MonoBehaviour
     private void Start()
     {
         canFire = false;
-        lockedEnemy = null;
+        GetComponent<ITarget>().SetTarget(null);
         attackSpeed = GetComponent<Player>().attackSpeed;
         InvokeRepeating("FindEnemyAndFire", 0f, 1f / attackSpeed);
         //InvokeRepeating("CheckAttackSpeedChange", 0, 0.2f); //check if the attack speed changed every .2 seconds to update the shooting frequency
@@ -42,8 +41,8 @@ public class PlayerAttack : MonoBehaviour
     public void LookAtEnemy()
     {
         //face enemy on the y axis. 
-        if (lockedEnemy == null) return;
-        var lookPos = lockedEnemy.GetComponent<Transform>().position - transform.position;
+        if (GetComponent<ITarget>().GetTarget() == null) return;
+        var lookPos = GetComponent<ITarget>().GetTarget().GetComponent<Transform>().position - transform.position;
         lookPos.y = 0;
         var rotation = Quaternion.LookRotation(lookPos);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.time * rotationSpeed);
@@ -59,7 +58,8 @@ public class PlayerAttack : MonoBehaviour
     //nearest enemy will be set to null if no alive enemy was found within range.
     public bool FindNearestEnemy()
     {
-        lockedEnemy = null;
+        GetComponent<ITarget>().SetTarget(null);
+
         //Colliders of all the enemies within range
         Collider[] colliders = Physics.OverlapSphere(transform.position, detectionDistance, enemiesMask);
         //stop fire if there are no enemies
@@ -79,7 +79,7 @@ public class PlayerAttack : MonoBehaviour
             if (dist < closestDistance)
             {
                 closestDistance = dist;
-                lockedEnemy = colliders[i].gameObject;
+                GetComponent<ITarget>().SetTarget(colliders[i].gameObject);
             }
 
         }
@@ -101,13 +101,13 @@ public class PlayerAttack : MonoBehaviour
 
     public void Fire()
     {
-        if (lockedEnemy == null) return;
+        if (GetComponent<ITarget>().GetTarget() == null) return;
      
         // Create an instance of the projectile and store a reference to it's rigidbody.
         Rigidbody shellInstance = Instantiate(projectile, fireTransform.position, fireTransform.rotation) as Rigidbody;
         shellInstance.GetComponent<Projectile>().damage = damage;
         // Set the shell's velocity to the launch force in the fire position's forward direction.
-        Vector3 enemyPosition = lockedEnemy.GetComponent<Transform>().position;
+        Vector3 enemyPosition = GetComponent<ITarget>().GetTarget().GetComponent<Transform>().position;
 
         // the y component should be 0 as every projectile should be launched parallel to the floor (enemies should be hit if projectile goes above or below them
         //... so trigger boxes should be made accordingly.

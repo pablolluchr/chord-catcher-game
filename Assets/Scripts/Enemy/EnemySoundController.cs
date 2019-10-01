@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySoundController : MonoBehaviour
+public class EnemySoundController : MonoBehaviour, IPlaySound
 {
     public int semitones;
     private readonly float step = Mathf.Pow(2, (1f / 12));
-    public void Play(int mode)
+    public void PlaySound(int mode)
     {
 
         //mode = 0: player attacks enemy

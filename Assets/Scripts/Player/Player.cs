@@ -54,8 +54,8 @@ public class Player : Unit
         else //character not moving
         {
             if (animationState == 1) Idle();
-            else if (animationState == 0 && attack.lockedEnemy != null) Attack(attackSpeed); //enemy appeared in player's range while player while player was idle
-            else if (animationState == 2 && attack.lockedEnemy == null) Idle(); //enemies died or disappeared from range while char was firing
+            else if (animationState == 0 && GetTarget() != null) Attack(attackSpeed); //enemy appeared in player's range while player while player was idle
+            else if (animationState == 2 && GetTarget() == null) Idle(); //enemies died or disappeared from range while char was firing
 
         }
 

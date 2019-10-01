@@ -1024,10 +1024,9 @@ GameObject:
   - component: {fileID: 629372136}
   - component: {fileID: 629372137}
   - component: {fileID: 6827927740737611731}
-  - component: {fileID: 7204499614956076878}
   - component: {fileID: 1281612718}
-  - component: {fileID: 1391137427}
   - component: {fileID: 3965581633553991208}
+  - component: {fileID: 655392191}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
@@ -1314,33 +1313,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathCanvas: {fileID: 1680995133}
---- !u!114 &7204499614956076878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5254733544905171961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe42ad6a4f14e4aedae5adeeab559bb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animationState: 0
-  animationLength: 0
-  maxHealth: 40
-  currentHealth: 0
-  lifeState: 0
-  healthBar: {fileID: 5254733542834891420}
-  sound: {fileID: 0}
-  isTouchingPlayer: 0
-  isTouchingEnemy: 0
-  isTouchingAlly: 0
-  isAlly: 0
-  isTouchingPlayerIndirectly: 0
-  target: {fileID: 0}
-  player: {fileID: 0}
-  enemyOnCollision: {fileID: 0}
 --- !u!114 &1281612718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1357,20 +1329,6 @@ MonoBehaviour:
   recentlyInflictedDamage: 0
   timeBetweenDamage: 1
   attackRange: 1.5
---- !u!114 &1391137427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5254733544905171961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 936f332fb0db04d02b833b62ccbbd36e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  self: {fileID: 0}
-  collidingAllies: []
 --- !u!114 &3965581633553991208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,3 +1342,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   semitones: 0
+--- !u!114 &655392191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5254733544905171961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b410e89bb64be4170a10da32aaac1460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationState: 0
+  animationLength: 1
+  maxHealth: 50
+  currentHealth: 0
+  lifeState: 0
+  healthBar: {fileID: 5254733542834891420}
+  target: {fileID: 0}
+  isTouchingPlayer: 0
+  isTouchingAlly: 0
+  isAlly: 0
+  isTouchingPlayerIndirectly: 0
+  player: {fileID: 0}
+  collidingAllies: []

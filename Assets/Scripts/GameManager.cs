@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
         notes = 0;
         if (instance == null) instance = this;
         else if (instance != this) Destroy(gameObject);
-        //Screen.fullScreen = !Screen.fullScreen;
-        //Screen.SetResolution(1080, 1920, false);
+        Screen.fullScreen = !Screen.fullScreen;
+        Screen.SetResolution(1080, 1920, false);
 
     }
 

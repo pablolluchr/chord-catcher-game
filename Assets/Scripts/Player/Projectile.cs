@@ -13,13 +13,10 @@ public class Projectile : MonoBehaviour
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemies"))
         {
+            collision.gameObject.GetComponent<ITakeDamage>().TakeDamage(damage);
+            collision.gameObject.GetComponent<IPauseMovement>().PauseMovement(knockoutTime);
 
-            Debug.Log("Enemy hit");
-            Unit enemy = collision.gameObject.GetComponent<Enemy>();
-            EnemyMovement move = collision.gameObject.GetComponent<EnemyMovement>();
-            move.StopMoving(knockoutTime);
-            enemy.TakeDamage(damage);
-            Destroy(gameObject);
+            Destroy(gameObject); //destroy projectile
 
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Player") ||

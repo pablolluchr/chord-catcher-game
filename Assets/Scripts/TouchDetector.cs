@@ -34,7 +34,8 @@ public class TouchDetector : MonoBehaviour
 
         if (!Input.GetMouseButton(0))//if button is not being held
         {
-            joystick.position = new Vector2(-joystick.rect.width, -joystick.rect.height);
+
+            joystick.position = new Vector2(-joystick.rect.width*2, -joystick.rect.height*2);
             Horizontal = 0;
             Vertical = 0;
             Direction = new Vector2(0f, 0f);

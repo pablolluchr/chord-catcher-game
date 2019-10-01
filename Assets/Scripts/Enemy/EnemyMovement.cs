@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour, IPauseMovement
 {
     public bool canMove = true;
     public float timeBetweenMoves;
@@ -33,21 +33,22 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        GameObject target = GetComponent<ITarget>().GetTarget();
         if (self.isAlly && self.isTouchingPlayerIndirectly)//stop when touching player indirectly
         {
-            self.target = null;
+            GetComponent<ITarget>().SetTarget(null);
             return;
         }
 
-        try { if (self.target.GetComponent<Enemy>().lifeState != 0) self.target = self.player; }//if target dies go after player
-        catch (NullReferenceException e) { }
+        try { if (target.GetComponent<Enemy>().lifeState != 0) target = self.player; }//if target dies go after player
+        catch (NullReferenceException) { }
 
         
-        float distance = Vector3.Distance(self.target.transform.position, transform.position);
+        float distance = Vector3.Distance(target.transform.position, transform.position);
         if (distance <= lookRadius && canMove)
         {
             //start chasing character
-            var lookPos = self.target.transform.position - transform.position;
+            var lookPos = target.transform.position - transform.position;
             lookPos.y = 0;
             var rotation = Quaternion.LookRotation(lookPos);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.time * rotationSpeed);
@@ -60,7 +61,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    public void StopMoving(float time)
+    public void PauseMovement(float time)
     {
         canMove = false;
         Invoke("SetBoolBack", time);
