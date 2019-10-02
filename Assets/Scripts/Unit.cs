@@ -17,7 +17,7 @@ public abstract class Unit : MonoBehaviour, ITakeDamage, ITarget
     {
         currentHealth = maxHealth;
         lifeState = 0;
-
+        anim = GetComponent<Animator>(); //set animator of parent
         // Update the health slider's value and color.
         SetHealthUI();
     }

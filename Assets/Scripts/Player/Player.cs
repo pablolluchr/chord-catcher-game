@@ -16,7 +16,6 @@ public class Player : Unit
         
         //set up private variables
         joystick = FindObjectOfType<TouchDetector>();
-        anim = GetComponent<Animator>(); //set animator of parent
         attack = GetComponent<PlayerAttack>();
   
 

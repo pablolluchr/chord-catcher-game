@@ -19,7 +19,9 @@ public class EnemyMovement : MonoBehaviour, IPauseMovement
     // Start is called before the first frame update
     void Start()
     {
+        //self.Idle();
         self = GetComponent<Enemy>();
+        self.Run();
         //IF ENEMIES ARE ALLIES TAKE TARGET FROM PLAYER
 
     }
@@ -53,9 +55,11 @@ public class EnemyMovement : MonoBehaviour, IPauseMovement
             var rotation = Quaternion.LookRotation(lookPos);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.time * rotationSpeed);
             GetComponent<Rigidbody>().velocity = transform.forward * moveSpeed;
+            //self.Run();
         }
         else
         {
+            //self.Idle();
             //wander randomly
 
         }

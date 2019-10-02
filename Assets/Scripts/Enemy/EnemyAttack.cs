@@ -33,10 +33,20 @@ public class EnemyAttack : MonoBehaviour
 
         if (dist < attackRange)
         {
+            self.Attack(1);
+            self.animationState = 2;
             target.GetComponent<ITakeDamage>().TakeDamage(damage);
             //TODO: make player play sound when hit 
             recentlyInflictedDamage = true;
             Invoke("SetRecentlyInflictedDamageFalse", timeBetweenDamage);
+        }
+        else
+        {
+            if (self.animationState == 2)
+            {
+                self.Run();
+                self.animationState = 1;
+            }
         }
     }
 

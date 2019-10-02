@@ -762,7 +762,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8239081335613147008
 Transform:
   m_ObjectHideFlags: 0
@@ -863,6 +863,7 @@ MonoBehaviour:
   currentHealth: 0
   lifeState: 0
   healthBar: {fileID: 1903744713}
+  target: {fileID: 0}
   attackSpeed: 3
 --- !u!114 &419751858
 MonoBehaviour:
@@ -876,19 +877,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c53bbd8b0bc3415a9fefbd3eb9eca1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemiesMask:
+    serializedVersion: 2
+    m_Bits: 512
+  rotationSpeed: 10
   fireTransform: {fileID: 1091095731959804469}
-  detectionDistance: 0
-  lockedEnemy: {fileID: 0}
+  detectionDistance: 6
   projectile: {fileID: 349318242858436804, guid: 6b83a772591b04e0b8395483c8975868,
     type: 3}
   launchForce: 30
   destroyProjectileDelay: 5
   canFire: 0
-  attackSpeed: 0
-  enemiesMask:
-    serializedVersion: 2
-    m_Bits: 512
-  rotationSpeed: 10
+  damage: 5
 --- !u!1 &5362491253654061036
 GameObject:
   m_ObjectHideFlags: 0
