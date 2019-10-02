@@ -15,6 +15,8 @@ public class EnemyDeath : MonoBehaviour
 
     public void Die()
     {
+        GetComponent<Enemy>().Idle();
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         //show collect/recruit options
         deathCanvas.gameObject.SetActive(true);
 
@@ -50,6 +52,10 @@ public class EnemyDeath : MonoBehaviour
         GetComponent<Enemy>().enabled = true;//runs OnEnable() so it resets health and lifeState
         GetComponent<Enemy>().isAlly = true;
         GetComponent<EnemyMovement>().lookRadius = 100;
+        GetComponent<Enemy>().healthBar.color = PlayerManager.instance.player.GetComponent<Unit>().healthBar.color;
+        GetComponent<Enemy>().Run();
+        GetComponent<Enemy>().animationState = 1;
+
 
         gameObject.layer = LayerMask.NameToLayer("Allies");
 

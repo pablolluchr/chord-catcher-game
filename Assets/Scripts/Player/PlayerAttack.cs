@@ -23,9 +23,11 @@ public class PlayerAttack : MonoBehaviour
         InvokeRepeating("FindEnemyAndFire", 0f, 1f / attackSpeed);
         //InvokeRepeating("CheckAttackSpeedChange", 0, 0.2f); //check if the attack speed changed every .2 seconds to update the shooting frequency
 
-        //ignore collisions between projectiles and projectiles, and player and projectiles
+        //ignore collisions between projectiles and projectiles, player and projectiles and allies and projectiles
         Physics.IgnoreLayerCollision(10, 10);
         Physics.IgnoreLayerCollision(8, 10);
+        Physics.IgnoreLayerCollision(15, 10);
+
     }
 
 

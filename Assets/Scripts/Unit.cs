@@ -12,6 +12,9 @@ public abstract class Unit : MonoBehaviour, ITakeDamage, ITarget
     public int lifeState; //0:alive, 1:dead, 2: limbo
     public Image healthBar;
     public GameObject target;
+    public Renderer graphics;
+    public Material white;
+    public Material actualMaterial;
     
     private void OnEnable()
     {
@@ -33,9 +36,14 @@ public abstract class Unit : MonoBehaviour, ITakeDamage, ITarget
 
     public void TakeDamage(int amount)
     {
+        Material[] newMaterials = { white };
+        graphics.materials = newMaterials;
+        Invoke("SetActualMaterialBack", 0.05f);
+        //yield WaitForSeconds(.5);
+        //renderer.material.color = normalColor;
         // Reduce current health by the amount of damage done.
 
-        if(GetComponent<IPlaySound>()!=null) GetComponent<IPlaySound>().PlaySound(0);
+        if (GetComponent<IPlaySound>()!=null) GetComponent<IPlaySound>().PlaySound(0);
 
         currentHealth -= amount;
         currentHealth = Mathf.Max(0, currentHealth);
@@ -47,6 +55,11 @@ public abstract class Unit : MonoBehaviour, ITakeDamage, ITarget
         {
             OnDeath();
         }
+    }
+    public void SetActualMaterialBack()
+    {
+        Material[] newMaterials = { actualMaterial };
+        graphics.materials = newMaterials;
     }
 
     public void Idle()

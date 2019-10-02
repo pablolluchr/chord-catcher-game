@@ -41,7 +41,13 @@ public abstract class Enemy : Unit
     private void LateUpdate()
     {
         //if ally is touching player tell their their colliding allies to spread the word
-        if (isTouchingPlayer) { UpdateTouchingPlayerIndirectly(); }
+        if (isTouchingPlayer) { UpdateTouchingPlayerIndirectly(); } else
+        {
+            if (isAlly && animationState != 1)
+            {
+                Run();
+            }
+        }
     }
 
 
@@ -53,6 +59,10 @@ public abstract class Enemy : Unit
 
     public void UpdateTouchingPlayerIndirectly()
     {
+        if (isAlly && animationState != 0)
+        {
+            Idle();
+        }
         //Tells unaware neighbours that they are touching the player indirectly
         if (isTouchingPlayerIndirectly) return;//if they already know it the chain stops (to avoid infinite loops in the spread of the word)
 

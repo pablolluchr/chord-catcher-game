@@ -6,14 +6,16 @@ public class Player : Unit
 {
     private PlayerAttack attack;
     private TouchDetector joystick;
+    private GameObject deathScreen;
     public float attackSpeed = 1f;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        deathScreen = GameObject.FindWithTag("DeathScreen");
         animationState = 0;
-        
+        deathScreen.GetComponent<Canvas>().enabled = false;
         //set up private variables
         joystick = FindObjectOfType<TouchDetector>();
         attack = GetComponent<PlayerAttack>();
@@ -36,6 +38,14 @@ public class Player : Unit
 
         //set up animation and state variables
         UpdateState();
+    }
+
+    override public void OnDeath()
+    {
+        lifeState = 2;
+        deathScreen.GetComponent<Canvas>().enabled = true;
+        Destroy(gameObject);
+
     }
 
     //in order for the player to go into attack mode it first has to go through idle.

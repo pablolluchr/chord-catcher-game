@@ -33,8 +33,8 @@ public class EnemyAttack : MonoBehaviour
 
         if (dist < attackRange)
         {
+            Debug.Log("Attack player");
             self.Attack(1);
-            self.animationState = 2;
             target.GetComponent<ITakeDamage>().TakeDamage(damage);
             //TODO: make player play sound when hit 
             recentlyInflictedDamage = true;
@@ -42,10 +42,9 @@ public class EnemyAttack : MonoBehaviour
         }
         else
         {
-            if (self.animationState == 2)
+            if (self.animationState !=1)
             {
                 self.Run();
-                self.animationState = 1;
             }
         }
     }
