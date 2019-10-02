@@ -29,10 +29,10 @@ public class TouchDetector : MonoBehaviour
         {
             //first click
             baseClick = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            joystick.position = new Vector3(baseClick.x - joystick.rect.width / 2, baseClick.y - joystick.rect.height / 2);
+            joystick.position = new Vector3(baseClick.x,baseClick.y);
         }
 
-        if (!Input.GetMouseButton(0))//if button is not being held
+        if (!Input.GetMouseButton(0))//if button is not being held  position the joystick away from the screen
         {
 
             joystick.position = new Vector2(-joystick.rect.width*2, -joystick.rect.height*2);
@@ -50,8 +50,10 @@ public class TouchDetector : MonoBehaviour
             Vertical = offset.y;
             if (System.Single.IsNaN(Horizontal)) Horizontal = 0f;
             if (System.Single.IsNaN(Vertical)) Vertical = 0f;
-            handle.position = new Vector2(joystick.position.x + joystick.rect.width / 2 + Horizontal * handle.rect.height,
-                joystick.position.y + joystick.rect.height / 2 + Vertical * handle.rect.width);
+            handle.position = new Vector2(baseClick.x + Horizontal * joystick.rect.width*joystick.localScale.x/2,
+                baseClick.y + Vertical * joystick.rect.height * joystick.localScale.y / 2);
+            //handle.position = new Vector2(joystick.position.x + joystick.rect.width / 2 + Horizontal * handle.rect.height,
+            //    joystick.position.y + joystick.rect.height / 2 + Vertical * handle.rect.width);
             Direction = new Vector2(offset.x, offset.y);
         }
 

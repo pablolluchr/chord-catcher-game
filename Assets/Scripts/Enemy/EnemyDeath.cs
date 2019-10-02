@@ -5,16 +5,21 @@ using UnityEngine;
 public class EnemyDeath : MonoBehaviour
 {
     public Canvas deathCanvas;
+    public Enemy self;
     // Start is called before the first frame update
     void Start()
     {
-
+        self = GetComponent<Enemy>();
         deathCanvas.worldCamera = FindObjectOfType<Camera>();
         deathCanvas.gameObject.SetActive(false);
     }
 
     public void Die()
     {
+        self.lifeState = 2;
+        self.animationState = 0;
+        if (self.isAlly) Destroy(gameObject); //if ally dies then kill them off completely
+
         GetComponent<Enemy>().Idle();
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         //show collect/recruit options
@@ -44,21 +49,15 @@ public class EnemyDeath : MonoBehaviour
 
     public void Recruit()
     {
+        gameObject.layer = LayerMask.NameToLayer("Allies");
         deathCanvas.gameObject.SetActive(false);
         GetComponent<EnemyAttack>().enabled = true;
-
         GetComponent<CapsuleCollider>().enabled = true;
         GetComponent<EnemyMovement>().enabled = true; 
         GetComponent<Enemy>().enabled = true;//runs OnEnable() so it resets health and lifeState
         GetComponent<Enemy>().isAlly = true;
         GetComponent<EnemyMovement>().lookRadius = 100;
         GetComponent<Enemy>().healthBar.color = PlayerManager.instance.player.GetComponent<Unit>().healthBar.color;
-        GetComponent<Enemy>().Run();
-        GetComponent<Enemy>().animationState = 1;
-
-
-        gameObject.layer = LayerMask.NameToLayer("Allies");
-
     }
 
 }

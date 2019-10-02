@@ -11,7 +11,7 @@ public class EnemyAttack : MonoBehaviour
     public float attackRange;
     // Start is called before the first frame update
 
-    void Start()
+    void OnEnable()
     {
         self = GetComponent<Enemy>();
     }
@@ -21,31 +21,30 @@ public class EnemyAttack : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
-    //public abstract void Attack();
+    //TODO: only use interfaces when needed. Between classes of the same object self.XXX is enough
     void Update()
     {
         GameObject target = GetComponent<ITarget>().GetTarget();
         if (recentlyInflictedDamage) return;
         if (target == null) return;
-        if (self.isAlly && target.layer == LayerMask.NameToLayer("Player")) return; //allies shouldn't damage player
+        if (self.isAlly && target.layer == LayerMask.NameToLayer("Player")) {
+            self.isAttacking = false;
+            return; //allies shouldn't damage player
+        }
 
         float dist = Vector3.Distance(transform.position, target.transform.position); //distance between self and target
 
         if (dist < attackRange)
         {
             Debug.Log("Attack player");
-            self.Attack(1);
+            self.isAttacking = true;
             target.GetComponent<ITakeDamage>().TakeDamage(damage);
-            //TODO: make player play sound when hit 
             recentlyInflictedDamage = true;
             Invoke("SetRecentlyInflictedDamageFalse", timeBetweenDamage);
         }
         else
         {
-            if (self.animationState !=1)
-            {
-                self.Run();
-            }
+            self.isAttacking = false;
         }
     }
 

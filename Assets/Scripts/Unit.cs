@@ -15,6 +15,7 @@ public abstract class Unit : MonoBehaviour, ITakeDamage, ITarget
     public Renderer graphics;
     public Material white;
     public Material actualMaterial;
+    public bool isAttacking;
     
     private void OnEnable()
     {
@@ -39,9 +40,6 @@ public abstract class Unit : MonoBehaviour, ITakeDamage, ITarget
         Material[] newMaterials = { white };
         graphics.materials = newMaterials;
         Invoke("SetActualMaterialBack", 0.05f);
-        //yield WaitForSeconds(.5);
-        //renderer.material.color = normalColor;
-        // Reduce current health by the amount of damage done.
 
         if (GetComponent<IPlaySound>()!=null) GetComponent<IPlaySound>().PlaySound(0);
 

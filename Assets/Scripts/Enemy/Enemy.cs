@@ -2,30 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//handles the animation logic and the target management of enemies.
 public abstract class Enemy : Unit
 {
     
-    public bool isTouchingPlayer;
-    //public bool isTouchingEnemy;
-    public bool isTouchingAlly;
     public bool isAlly;
-    public bool isTouchingPlayerIndirectly; //is touching player through a chain of allies?
-
     public GameObject player;
-    //public Enemy enemyOnCollision;
-    public List<GameObject> collidingAllies;
-
+    
     void Start()
     {
         isAlly = false;
         player = PlayerManager.instance.player;
         SetTarget(player);
-        isTouchingPlayer = false;
     }
 
     private void Update()
     {
-        isTouchingPlayerIndirectly = false; //default to false. Will be updated by LateUpdate to true if appropriate
+
+        //SET UP ANIMATION STATE
+        if (GetComponent<Rigidbody>().velocity.magnitude < new Vector3(0.1f,0.1f,0.1f).magnitude) {
+            if(animationState!=0 && !isAttacking) //TODO: CHANGE animationState to enums
+            {
+                Idle(); //TODO: Rename animation functions to IdleAnimation();
+            }
+        }
+        else
+        {
+            if (animationState != 1 && !isAttacking)
+            {
+                Run(); 
+            }
+        }
+        if(isAttacking && animationState != 2)
+        {
+            Attack(1);
+        }
+
         if (target != null)
         {
             if (target.GetComponent<Unit>().lifeState == 2) { target = null; } //stop going after an enemy when they die
@@ -38,49 +50,9 @@ public abstract class Enemy : Unit
         }
     }
 
-    private void LateUpdate()
-    {
-        //if ally is touching player tell their their colliding allies to spread the word
-        if (isTouchingPlayer) { UpdateTouchingPlayerIndirectly(); } else
-        {
-            if (isAlly && animationState != 1)
-            {
-                Run();
-            }
-        }
-    }
-
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player")) { isTouchingPlayer = true; }
-        if (other.gameObject.layer == LayerMask.NameToLayer("Allies")) { collidingAllies.Add(other.gameObject); }
-    }
-
-    public void UpdateTouchingPlayerIndirectly()
-    {
-        if (isAlly && animationState != 0)
-        {
-            Idle();
-        }
-        //Tells unaware neighbours that they are touching the player indirectly
-        if (isTouchingPlayerIndirectly) return;//if they already know it the chain stops (to avoid infinite loops in the spread of the word)
-
-        isTouchingPlayerIndirectly = true;
-        foreach (GameObject c in collidingAllies) { c.GetComponentInChildren<Enemy>().UpdateTouchingPlayerIndirectly(); }
-    }
-
-    private void OnCollisionExit(Collision other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player")) { isTouchingPlayer = false; }
-        if (other.gameObject.layer == LayerMask.NameToLayer("Allies")) { collidingAllies.Remove(other.gameObject); }
-    }
-
     override public void OnDeath()
     {
-        lifeState = 2;
-        if (isAlly) Destroy(gameObject); //if ally dies then kill them off completely
-        GetComponent<EnemyDeath>().Die();
+        GetComponent<EnemyDeath>().Die(); //TODO: implement using interface so Enemy doesn't need to know what script is implementing the death function
     }
 
 

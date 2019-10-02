@@ -20,7 +20,7 @@ public class MapGenerator : MonoBehaviour
     [Range(0,1)]
     public float treeDensity;
 
-
+    //TODO: MAYBE CHANGE THE FACT THAT THE MAP REQUIRES THE PLAYER TO START IN (0,0,0) OR ELSE IT GENERATES WEIRD TERRAINS
     // Start is called before the first frame update
     void Start()
     {
