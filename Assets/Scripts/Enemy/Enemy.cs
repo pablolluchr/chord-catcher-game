@@ -8,6 +8,7 @@ public abstract class Enemy : Unit
     
     public bool isAlly;
     public GameObject player;
+    public GameObject full_healthBar;
     
     void Start()
     {
@@ -16,6 +17,15 @@ public abstract class Enemy : Unit
         SetTarget(player);
     }
 
+    private void OnDisable()
+    {
+        full_healthBar.GetComponent<Canvas>().enabled = false;
+    }
+
+    //private void OnEnable()
+    //{
+    //    full_healthBar.GetComponent<Canvas>().enabled = true;
+    //}
     private void Update()
     {
 
