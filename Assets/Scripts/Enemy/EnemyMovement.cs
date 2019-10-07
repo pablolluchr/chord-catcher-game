@@ -30,6 +30,13 @@ public class EnemyMovement : MonoBehaviour, IPauseMovement
 
     }
 
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+    //    {
+    //        PauseMovement(1f);
+    //    }
+    //}
 
     private void OnDrawGizmosSelected()
     {
@@ -37,9 +44,10 @@ public class EnemyMovement : MonoBehaviour, IPauseMovement
         Gizmos.DrawWireSphere(transform.position, lookRadius);
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() //movement code
     {
         GameObject target = GetComponent<ITarget>().GetTarget();
+        if (!canMove) return;
 
         if (self.isAlly && target == PlayerManager.instance.player) //if the enemy is going after the player and the enemy is an ally 
         {
@@ -58,7 +66,7 @@ public class EnemyMovement : MonoBehaviour, IPauseMovement
 
         
         float distance = Vector3.Distance(target.transform.position, transform.position);
-        if (distance <= lookRadius && canMove)
+        if (distance <= lookRadius)
         {
             //start chasing character
             var lookPos = target.transform.position - transform.position;
@@ -69,6 +77,7 @@ public class EnemyMovement : MonoBehaviour, IPauseMovement
         }
         else
         {
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
             //wander randomly
         }
     }
